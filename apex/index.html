@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gym Membership Portal</title>
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="cursor"></div>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/main.js"></script>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+
+  <!-- ========== NAV ========== -->
+  <nav>
+    <a href="#" class="nav-logo">SKY<span>POOL</span></a>
+    <div class="nav-links">
+      <a href="#">Programs</a>
+      <a href="#">Trainers</a>
+      <a href="#plans">Membership</a>
+      <a href="#">About</a>
+      <a href="#" class="nav-cta">Join Now</a>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-accent-line"></div>
+
+    <div class="hero-content">
+      <div class="hero-tag">Est. 2023 — Premium Fitness</div>
+
+      <h1 class="hero-title">
+        FORGE<br />
+        YOUR<br />
+        <span class="line-accent">LIMIT</span><span class="line-outline">LESS</span>
+      </h1>
+
+      <p class="hero-sub">
+        A gym membership portal built for those who don't stop. Track progress,
+        book sessions, manage plans — all in one brutal interface.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#" class="btn-primary"><span>Start Membership</span><span>→</span></a>
+        <a href="#plans" class="btn-ghost">View Plans ↓</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">14<span>K</span></div>
+          <div class="stat-label">Active Members</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">98<span>%</span></div>
+          <div class="stat-label">Retention Rate</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3<span>+</span></div>
+          <div class="stat-label">Locations</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Visual / Member Card -->
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="floating-badge">Active ●</div>
+
+        <div class="h-card h-card-side h-card-side-1">
+          <div class="side-label">Weekly Sessions</div>
+          <div class="side-val">24</div>
+          <div class="side-dots">
+            <div class="dot on"></div>
+            <div class="dot on"></div>
+            <div class="dot on"></div>
+            <div class="dot on"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+
+        <div class="h-card h-card-main">
+          <div class="h-card-main-bg"></div>
+          <div class="h-card-figure">
+            <!-- Stylised athlete SVG illustration -->
+            <svg class="figure-svg" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="100" cy="36" r="22" fill="#2a2a2a" stroke="rgba(200,245,62,0.5)" stroke-width="1.5"/>
+              <path d="M72 70 L58 140 L90 135 L100 160 L110 135 L142 140 L128 70 Z" fill="#222" stroke="rgba(200,245,62,0.3)" stroke-width="1"/>
+              <path d="M72 80 L44 100 L36 130 L52 140 L58 120 L76 108" stroke="rgba(200,245,62,0.6)" stroke-width="8" stroke-linecap="round" fill="none"/>
+              <path d="M128 80 L156 100 L164 130 L148 140 L142 120 L124 108" stroke="rgba(200,245,62,0.6)" stroke-width="8" stroke-linecap="round" fill="none"/>
+              <path d="M90 160 L82 220 L96 222 L100 195 L104 222 L118 220 L110 160 Z" fill="#1e1e1e" stroke="rgba(200,245,62,0.2)" stroke-width="1"/>
+              <line x1="85" y1="90" x2="115" y2="90" stroke="rgba(200,245,62,0.2)" stroke-width="1"/>
+              <line x1="82" y1="105" x2="118" y2="105" stroke="rgba(200,245,62,0.15)" stroke-width="1"/>
+              <line x1="79" y1="120" x2="121" y2="120" stroke="rgba(200,245,62,0.1)" stroke-width="1"/>
+              <!-- Dumbbell Left -->
+              <rect x="18" y="127" width="22" height="7" rx="2" fill="#c8f53e" opacity="0.7"/>
+              <rect x="14" y="123" width="6" height="15" rx="1" fill="#c8f53e" opacity="0.9"/>
+              <rect x="40" y="123" width="6" height="15" rx="1" fill="#c8f53e" opacity="0.9"/>
+              <!-- Dumbbell Right -->
+              <rect x="160" y="127" width="22" height="7" rx="2" fill="#c8f53e" opacity="0.7"/>
+              <rect x="156" y="123" width="6" height="15" rx="1" fill="#c8f53e" opacity="0.9"/>
+              <rect x="182" y="123" width="6" height="15" rx="1" fill="#c8f53e" opacity="0.9"/>
+            </svg>
+          </div>
+          <div class="h-card-info">
+            <div class="h-card-name">JORDAN K.</div>
+            <div class="h-card-plan">Elite Member — Month 8</div>
+            <div class="h-card-bar">
+              <div class="h-card-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="h-card h-card-side h-card-side-2">
+          <div class="side-label">Calories Burned</div>
+          <div class="side-val acid">2.4K</div>
+          <div class="side-label" style="margin-top: auto;">This Week</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MARQUEE ========== -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="marquee-item">Strength Training <span class="dot-sep"></span></span>
+      <span class="marquee-item">Cardio Programs <span class="dot-sep"></span></span>
+      <span class="marquee-item">Personal Training <span class="dot-sep"></span></span>
+      <span class="marquee-item">Nutrition Coaching <span class="dot-sep"></span></span>
+      <span class="marquee-item">Group Classes <span class="dot-sep"></span></span>
+      <span class="marquee-item">Recovery Sessions <span class="dot-sep"></span></span>
+      <span class="marquee-item">24/7 Access <span class="dot-sep"></span></span>
+      <span class="marquee-item">Online Portal <span class="dot-sep"></span></span>
+      <!-- Duplicate for seamless infinite loop -->
+      <span class="marquee-item">Strength Training <span class="dot-sep"></span></span>
+      <span class="marquee-item">Cardio Programs <span class="dot-sep"></span></span>
+      <span class="marquee-item">Personal Training <span class="dot-sep"></span></span>
+      <span class="marquee-item">Nutrition Coaching <span class="dot-sep"></span></span>
+      <span class="marquee-item">Group Classes <span class="dot-sep"></span></span>
+      <span class="marquee-item">Recovery Sessions <span class="dot-sep"></span></span>
+      <span class="marquee-item">24/7 Access <span class="dot-sep"></span></span>
+      <span class="marquee-item">Online Portal <span class="dot-sep"></span></span>
+    </div>
+  </div>
+
+  <!-- ========== MEMBERSHIP PLANS ========== -->
+  <section class="plans" id="plans">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// 02 — Membership</div>
+        <h2 class="section-title">PICK YOUR<br /><span class="outline">WEAPON</span></h2>
+      </div>
+      <p class="section-sub">
+        Flexible plans that grow with your goals. No lock-ins. No excuses. Cancel anytime.
+      </p>
+    </div>
+
+    <div class="plans-grid">
+
+      <!-- Starter -->
+      <div class="plan-card">
+        <div class="plan-name">// Starter</div>
+        <div class="plan-price"><sup>₹</sup>999<sub>/mo</sub></div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>Gym Floor Access</li>
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>Locker Room</li>
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>2 Group Classes/week</li>
+          <li><span class="feat-icon off"><svg viewBox="0 0 10 10"><line x1="3" y1="3" x2="7" y2="7" stroke="#444" stroke-width="1.5"/><line x1="7" y1="3" x2="3" y2="7" stroke="#444" stroke-width="1.5"/></svg></span>Personal Trainer</li>
+          <li><span class="feat-icon off"><svg viewBox="0 0 10 10"><line x1="3" y1="3" x2="7" y2="7" stroke="#444" stroke-width="1.5"/><line x1="7" y1="3" x2="3" y2="7" stroke="#444" stroke-width="1.5"/></svg></span>Nutrition Coaching</li>
+        </ul>
+        <a href="#" class="plan-btn">Get Started</a>
+      </div>
+
+      <!-- Pro (featured) -->
+      <div class="plan-card featured">
+        <div class="plan-name">// Pro</div>
+        <div class="plan-price"><sup>₹</sup>1,999<sub>/mo</sub></div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>Unlimited Access</li>
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>All Group Classes</li>
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>2 PT Sessions/month</li>
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>Member Portal Access</li>
+          <li><span class="feat-icon off"><svg viewBox="0 0 10 10"><line x1="3" y1="3" x2="7" y2="7" stroke="#444" stroke-width="1.5"/><line x1="7" y1="3" x2="3" y2="7" stroke="#444" stroke-width="1.5"/></svg></span>Nutrition Coaching</li>
+        </ul>
+        <a href="#" class="plan-btn">Get Started</a>
+      </div>
+
+      <!-- Elite -->
+      <div class="plan-card">
+        <div class="plan-name">// Elite</div>
+        <div class="plan-price"><sup>₹</sup>3,499<sub>/mo</sub></div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>Everything in Pro</li>
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>Unlimited PT Sessions</li>
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>Nutrition Coaching</li>
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>Body Composition Scans</li>
+          <li class="active"><span class="feat-icon"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7 8,3" fill="none" stroke="#c8f53e" stroke-width="1.5" stroke-linecap="round"/></svg></span>Priority Booking</li>
+        </ul>
+        <a href="#" class="plan-btn">Get Started</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== FEATURES ========== -->
+  <section class="features">
+    <div class="features-visual">
+      <div class="feat-panel feat-panel-1">
+        <div class="feat-panel-label">// Workout Analytics</div>
+        <div class="feat-panel-title">Weekly Performance</div>
+        <div class="feat-panel-sub">Track every rep, every session.</div>
+        <div class="mini-chart">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+
+      <div class="feat-panel feat-panel-2">
+        <div class="feat-panel-label">// Goal Progress</div>
+        <div class="feat-panel-title">Body Fat Reduction</div>
+        <div class="progress-ring-wrap">
+          <svg class="ring-svg" width="72" height="72" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30"/>
+          </svg>
+          <div>
+            <div class="ring-val">70%</div>
+            <div class="ring-label">Goal Reached</div>
+          </div>
+        </div>
+        <div class="feat-panel-sub" style="margin-top: 16px;">
+          You're ahead of 89% of members at your stage.
+        </div>
+      </div>
+    </div>
+
+    <div class="features-content">
+      <div class="section-tag">// 03 — Portal Features</div>
+      <h2 class="section-title">BUILT TO<br /><span class="outline">PERFORM</span></h2>
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-num">01</div>
+          <div>
+            <div class="feature-item-title">Smart Session Booking</div>
+            <div class="feature-item-sub">Book classes, PT sessions, and equipment slots in seconds. Real-time availability, instant confirmation.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-num">02</div>
+          <div>
+            <div class="feature-item-title">Progress Tracking Dashboard</div>
+            <div class="feature-item-sub">Log workouts, monitor body stats, visualise trends. Your journey, quantified.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-num">03</div>
+          <div>
+            <div class="feature-item-title">Trainer Messaging</div>
+            <div class="feature-item-sub">Direct line to your assigned trainer. Notes, plans, feedback — all in one thread.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-num">04</div>
+          <div>
+            <div class="feature-item-title">Billing & Plan Management</div>
+            <div class="feature-item-sub">Upgrade, downgrade, pause, or cancel. Full control over your membership, no friction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <div class="cta-section">
+    <div class="cta-title">
+      READY TO<br />
+      <span class="outline">COMMIT?</span>
+    </div>
+    <div class="cta-right">
+      <p class="cta-sub">Join thousands of members already smashing goals. First week's on us — no card required.</p>
+      <a href="#" class="btn-primary"><span>Start Free Trial</span><span>→</span></a>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="footer-logo">APE<span>X</span></div>
+    <div class="footer-copy">© 2026 APEX FITNESS. ALL RIGHTS RESERVED.</div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+      <a href="#">Instagram</a>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
