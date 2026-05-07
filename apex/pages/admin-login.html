@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — APEX Gym</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/auth.css" />
+  <style>
+    .admin-badge {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #ff6b6b, #ff4444);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="admin-badge">🔐 ADMIN ONLY</div>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">SKY<span>POOL</span></a>
+  </nav>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>Admin Panel</h1>
+        <p>APEX Gym Management System</p>
+      </div>
+
+      <form id="adminLoginForm" class="auth-form">
+        <div class="form-group">
+          <label for="adminEmail">Admin Email</label>
+          <input type="email" id="adminEmail" name="email" placeholder="admin@apex.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword">Admin Password</label>
+          <input type="password" id="adminPassword" name="password" placeholder="••••••••" required />
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%;">
+          <span>Admin Login</span>
+        </button>
+      </form>
+
+      <div id="authStatus" class="auth-status hidden"></div>
+
+      <div style="margin-top: 24px; padding: 16px; background: rgba(255, 107, 107, 0.1); border-left: 4px solid #ff6b6b; border-radius: 4px;">
+        <p style="font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; letter-spacing: 1px;">DEMO CREDENTIALS:</p>
+        <p style="font-size: 0.85rem; color: var(--white); margin: 4px 0;"><strong>Email:</strong> admin@apex.com</p>
+        <p style="font-size: 0.85rem; color: var(--white); margin: 4px 0;"><strong>Password:</strong> ApexAdmin@2024</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/admin-auth.js"></script>
+</body>
+</html>

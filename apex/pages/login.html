@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — APEX Gym</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/auth.css" />
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">SKY<span>POOL</span></a>
+  </nav>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>Welcome to APEX</h1>
+        <p>Train, track, transform</p>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="auth-tabs">
+        <button class="tab-btn active" data-tab="email">Email</button>
+      </div>
+
+      <!-- Email Tab -->
+      <div class="tab-content active" id="email-tab">
+        
+        <!-- Login Form -->
+        <form id="emailLoginForm" class="auth-form">
+          <h3 style="color: var(--white); margin-bottom: 16px; font-size: 1.2rem;">Sign In</h3>
+          
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" required />
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;">
+            <span>Sign In</span>
+          </button>
+        </form>
+
+        <div class="auth-divider">OR</div>
+
+        <!-- Registration Form (hidden by default) -->
+        <form id="registerForm" class="auth-form" style="display: none;">
+          <h3 style="color: var(--white); margin-bottom: 16px; font-size: 1.2rem;">Create Account</h3>
+          
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="John Doe" required />
+          </div>
+
+          <div class="form-group">
+            <label for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" name="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="regPassword">Password</label>
+            <input type="password" id="regPassword" name="password" placeholder="••••••••" required />
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required />
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;">
+            <span>Create Account</span>
+          </button>
+        </form>
+
+        <p class="auth-switch" style="text-align: center; margin-top: 20px;">
+          <span id="switchText">Don't have an account? <a href="#" class="switch-to-register">Sign up</a></span>
+        </p>
+      </div>
+
+      <!-- Status Messages -->
+      <div id="authStatus" class="auth-status hidden"></div>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

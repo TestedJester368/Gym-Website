@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — APEX Gym</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin-dashboard.css" />
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+
+  <!-- ========== ADMIN NAV ========== -->
+  <nav class="admin-nav">
+    <a href="../index.html" class="nav-logo">SKY<span>POOL</span></a>
+    <div class="nav-title">Admin Dashboard</div>
+    <button id="logoutBtn" class="nav-cta">Logout</button>
+  </nav>
+
+  <!-- ========== ADMIN CONTAINER ========== -->
+  <div class="admin-container">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-menu">
+        <button class="menu-item active" data-section="overview">
+          <span>📊</span> Overview
+        </button>
+        <button class="menu-item" data-section="users">
+          <span>👥</span> Users
+        </button>
+        <button class="menu-item" data-section="plans">
+          <span>💳</span> Plans
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+
+      <!-- ========== OVERVIEW SECTION ========== -->
+      <section id="overview-section" class="admin-section active">
+        <h2 class="section-title">📊 Dashboard Overview</h2>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+              <div class="stat-label">Total Users</div>
+              <div class="stat-value" id="totalUsersCount">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">🔴</div>
+            <div class="stat-content">
+              <div class="stat-label">No Plan</div>
+              <div class="stat-value" id="noPlanCount">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">🟡</div>
+            <div class="stat-content">
+              <div class="stat-label">Starter Plan</div>
+              <div class="stat-value" id="starterCount">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">🟢</div>
+            <div class="stat-content">
+              <div class="stat-label">Pro Plan</div>
+              <div class="stat-value" id="proCount">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-content">
+              <div class="stat-label">Elite Plan</div>
+              <div class="stat-value" id="eliteCount">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Registrations -->
+        <div class="admin-card">
+          <h3>Recent Registrations</h3>
+          <div class="registrations-list" id="recentRegistrations">
+            <p class="loading">Loading...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== USERS SECTION ========== -->
+      <section id="users-section" class="admin-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <h2 class="section-title">👥 All Users</h2>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search users..." 
+            class="search-input"
+          />
+        </div>
+
+        <div class="users-table-container">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Current Plan</th>
+                <th>Join Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr>
+                <td colspan="5" class="loading">Loading users...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========== PLANS SECTION ========== -->
+      <section id="plans-section" class="admin-section">
+        <h2 class="section-title">💳 Plan Management</h2>
+
+        <div class="plans-overview">
+          <div class="plan-stat">
+            <div class="plan-stat-label">Starter Plan</div>
+            <div class="plan-stat-price">₹999/month</div>
+            <div class="plan-stat-count" id="starterPlanCount">0 users</div>
+          </div>
+
+          <div class="plan-stat">
+            <div class="plan-stat-label">Pro Plan</div>
+            <div class="plan-stat-price">₹1,999/month</div>
+            <div class="plan-stat-count" id="proPlanCount">0 users</div>
+          </div>
+
+          <div class="plan-stat">
+            <div class="plan-stat-label">Elite Plan</div>
+            <div class="plan-stat-price">₹3,499/month</div>
+            <div class="plan-stat-count" id="elitePlanCount">0 users</div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h3>Revenue Overview</h3>
+          <div id="revenueOverview" class="revenue-overview">
+            <div class="revenue-item">
+              <span>Total Monthly Revenue:</span>
+              <span id="totalRevenue" class="revenue-value">₹0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ========== EDIT PLAN MODAL ========== -->
+  <div class="modal" id="editPlanModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Update User Plan</h2>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+
+      <form id="editPlanForm" class="modal-form">
+        <div class="form-group">
+          <label>User</label>
+          <input type="text" id="editUserName" disabled />
+        </div>
+
+        <div class="form-group">
+          <label for="editPlan">New Plan</label>
+          <select id="editPlan" required>
+            <option value="">Select Plan</option>
+            <option value="starter">Starter (₹999/month)</option>
+            <option value="pro">Pro (₹1,999/month)</option>
+            <option value="elite">Elite (₹3,499/month)</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" id="cancelEdit">Cancel</button>
+          <button type="submit" class="btn-primary">Update Plan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/admin-dashboard.js"></script>
+</body>
+</html>
