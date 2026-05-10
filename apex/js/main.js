@@ -106,6 +106,12 @@ if (navToggle && navLinks) {
 ============================================================ */
 
 function initAuthUI() {
+  // Skip auth UI setup if admin is logged in (admin pages have their own setup)
+  const isAdmin = localStorage.getItem('adminToken');
+  if (isAdmin) {
+    return;
+  }
+
   const isLoggedIn = localStorage.getItem('authToken');
   const userStr = localStorage.getItem('user');
   const user = userStr ? JSON.parse(userStr) : null;

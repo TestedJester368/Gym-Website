@@ -9,6 +9,7 @@
    6.  Marquee Strip
    7.  Membership Plans
    8.  Features Section
+   8.5 Trainers Section
    9.  CTA Section
    10. Footer
    11. Animations & Keyframes
@@ -897,6 +898,193 @@ nav {
   font-size: 0.82rem;
   color: var(--muted);
   line-height: 1.6;
+}
+
+
+/* ============================================================
+   8.5 TRAINERS SECTION
+============================================================ */
+.trainers {
+  margin: 120px 48px;
+  padding: 80px 0;
+}
+
+.trainers .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 48px;
+  margin-bottom: 64px;
+}
+
+.trainers .section-header > div:first-child {
+  flex: 1;
+}
+
+.trainers .section-sub {
+  max-width: 320px;
+}
+
+.trainers-scroll {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.trainers-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 16px 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.trainers-track::-webkit-scrollbar {
+  display: none;
+}
+
+.trainer-card {
+  flex: 0 0 320px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(200, 245, 62, 0.15);
+  border-radius: 8px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.trainer-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(200, 245, 62, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.trainer-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(200, 245, 62, 0.3);
+  transform: translateY(-8px);
+}
+
+.trainer-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 120px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, rgba(200, 245, 62, 0.1), rgba(200, 245, 62, 0.05));
+  border-radius: 8px;
+  border: 1px dashed rgba(200, 245, 62, 0.2);
+  overflow: hidden;
+}
+
+.trainer-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.trainer-info {
+  position: relative;
+  z-index: 1;
+}
+
+.trainer-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 4px;
+  font-family: var(--font-display);
+  letter-spacing: 0.5px;
+}
+
+.trainer-specialty {
+  font-size: 0.85rem;
+  color: var(--acid);
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.trainer-experience {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+}
+
+.trainer-badges {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(200, 245, 62, 0.12);
+  color: var(--acid);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(200, 245, 62, 0.2);
+}
+
+.trainer-bio {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
+  text-align: left;
+}
+
+.trainers-scroll-hint {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+  animation: pulse-hint 2s ease-in-out infinite;
+}
+
+@keyframes pulse-hint {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .trainers {
+    margin: 80px 24px;
+    padding: 40px 0;
+  }
+
+  .trainers .section-header {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .trainer-card {
+    flex: 0 0 280px;
+    padding: 16px;
+  }
+
+  .trainer-image {
+    height: 100px;
+  }
+
+  .trainer-avatar {
+    font-size: 36px;
+  }
 }
 
 
