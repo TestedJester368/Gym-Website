@@ -1,0 +1,9 @@
+{
+  "name": "apex-gym-monorepo",
+  "private": true,
+  "workspaces": ["backend"],
+  "scripts": {
+    "dev": "npm run dev --workspace backend",
+    "start": "npm run start --workspace backend"
+  }
+}

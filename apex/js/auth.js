@@ -5,7 +5,7 @@
    - No Firebase dependency
 ============================================================ */
 
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = `${window.location.origin}/api/auth`; 
 
 // ============================================================
 // TAB SWITCHING
