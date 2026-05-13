@@ -1,6 +1,5 @@
-const API_URL = 'http://localhost:3000/api/admin';
+const API_URL = `${window.location.origin}/api/admin`;
 
-// Check admin auth
 function checkAdminAuth() {
   const token = localStorage.getItem('adminToken');
   const admin = localStorage.getItem('admin');
@@ -15,7 +14,6 @@ function checkAdminAuth() {
 
 const currentAdmin = checkAdminAuth();
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   if (!currentAdmin) return;
 
@@ -23,10 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadDashboardData();
   setupLogout();
 });
-
-// ============================================================
-// SIDEBAR NAVIGATION
-// ============================================================
 
 function setupNavigation() {
   const menuItems = document.querySelectorAll('.menu-item');
@@ -36,15 +30,12 @@ function setupNavigation() {
     item.addEventListener('click', () => {
       const section = item.dataset.section;
 
-      // Remove active from all
       menuItems.forEach(m => m.classList.remove('active'));
       sections.forEach(s => s.classList.remove('active'));
 
-      // Add active to current
       item.classList.add('active');
       document.getElementById(`${section}-section`).classList.add('active');
 
-      // Load data if needed
       if (section === 'users') {
         loadUsersData();
       } else if (section === 'plans') {
@@ -53,10 +44,6 @@ function setupNavigation() {
     });
   });
 }
-
-// ============================================================
-// LOAD DASHBOARD DATA
-// ============================================================
 
 async function loadDashboardData() {
   try {
@@ -74,14 +61,12 @@ async function loadDashboardData() {
 
     const stats = data.stats;
 
-    // Update stats cards
     document.getElementById('totalUsersCount').textContent = stats.totalUsers;
     document.getElementById('noPlanCount').textContent = stats.planBreakdown.noplan;
     document.getElementById('starterCount').textContent = stats.planBreakdown.starter;
     document.getElementById('proCount').textContent = stats.planBreakdown.pro;
     document.getElementById('eliteCount').textContent = stats.planBreakdown.elite;
 
-    // Update recent registrations
     const regList = document.getElementById('recentRegistrations');
     if (stats.recentRegistrations.length === 0) {
       regList.innerHTML = '<p class="empty">No recent registrations</p>';
@@ -103,17 +88,9 @@ async function loadDashboardData() {
   }
 }
 
-// ============================================================
-// LOAD USERS DATA
-// ============================================================
-
 async function loadUsersData() {
   try {
     const token = localStorage.getItem('adminToken');
-
-    if (!token) {
-      throw new Error('No admin token found');
-    }
 
     const response = await fetch(`${API_URL}/users`, {
       headers: { 'Authorization': `Bearer ${token}` }
@@ -125,17 +102,13 @@ async function loadUsersData() {
       throw new Error(data.error || 'Failed to load users');
     }
 
-    if (!data.users || !Array.isArray(data.users)) {
-      throw new Error('Invalid users data format');
-    }
-
     displayUsersTable(data.users);
     setupUserSearch(data.users);
 
   } catch (error) {
     console.error('Error loading users:', error);
     document.getElementById('usersTableBody').innerHTML = `
-      <tr><td colspan="5" class="error" style="text-align: center; padding: 20px; color: red;">Error loading users: ${error.message}</td></tr>
+      <tr><td colspan="5" class="error">Error loading users</td></tr>
     `;
   }
 }
@@ -148,24 +121,20 @@ function displayUsersTable(users) {
     return;
   }
 
-  tbody.innerHTML = users.map(user => {
-    // Normalize plan for CSS class
-    const planClass = user.plan ? user.plan.toLowerCase().replace(/\s+/g, '-') : 'no-plan';
-    
-    return `
+  tbody.innerHTML = users.map(user => `
     <tr>
-      <td class="user-name">${user.fullName || 'N/A'}</td>
-      <td class="user-email">${user.email || 'N/A'}</td>
+      <td class="user-name">${user.fullName}</td>
+      <td class="user-email">${user.email}</td>
       <td class="user-plan">
-        <span class="plan-badge plan-${planClass}">${user.plan || 'No Plan'}</span>
+        <span class="plan-badge plan-${user.plan.toLowerCase()}">${user.plan}</span>
       </td>
-      <td class="user-date">${user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A'}</td>
+      <td class="user-date">${new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
       <td class="user-actions">
-        <button class="action-btn edit-btn" onclick="openEditPlanModal('${user.uid}', '${user.fullName || 'User'}')">Edit</button>
-        <button class="action-btn delete-btn" onclick="deleteUser('${user.uid}', '${user.fullName || 'User'}')">Delete</button>
+        <button class="action-btn edit-btn" onclick="openEditPlanModal('${user.uid}', '${user.fullName}')">Edit</button>
+        <button class="action-btn delete-btn" onclick="deleteUser('${user.uid}', '${user.fullName}')">Delete</button>
       </td>
     </tr>
-  `}).join('');
+  `).join('');
 }
 
 function setupUserSearch(users) {
@@ -182,10 +151,6 @@ function setupUserSearch(users) {
   });
 }
 
-// ============================================================
-// LOAD PLANS DATA
-// ============================================================
-
 async function loadPlansData() {
   try {
     const token = localStorage.getItem('adminToken');
@@ -201,7 +166,6 @@ async function loadPlansData() {
     document.getElementById('proPlanCount').textContent = `${stats.planBreakdown.pro} users`;
     document.getElementById('elitePlanCount').textContent = `${stats.planBreakdown.elite} users`;
 
-    // Calculate revenue
     const starterRevenue = stats.planBreakdown.starter * 999;
     const proRevenue = stats.planBreakdown.pro * 1999;
     const eliteRevenue = stats.planBreakdown.elite * 3499;
@@ -213,10 +177,6 @@ async function loadPlansData() {
     console.error('Error loading plans data:', error);
   }
 }
-
-// ============================================================
-// EDIT PLAN MODAL
-// ============================================================
 
 const modal = document.getElementById('editPlanModal');
 const closeBtn = document.getElementById('closeModal');
@@ -279,10 +239,6 @@ editForm.addEventListener('submit', async (e) => {
   }
 });
 
-// ============================================================
-// DELETE USER
-// ============================================================
-
 async function deleteUser(uid, fullName) {
   if (!confirm(`Are you sure you want to delete ${fullName}?`)) {
     return;
@@ -311,24 +267,11 @@ async function deleteUser(uid, fullName) {
   }
 }
 
-// ============================================================
-// LOGOUT
-// ============================================================
-
 function setupLogout() {
-  const logoutBtn = document.getElementById('logoutBtn');
-  
-  // Remove any existing listeners to prevent duplicates
-  const newBtn = logoutBtn.cloneNode(true);
-  logoutBtn.parentNode.replaceChild(newBtn, logoutBtn);
-  
-  document.getElementById('logoutBtn').addEventListener('click', (e) => {
-    e.preventDefault();
+  document.getElementById('logoutBtn').addEventListener('click', () => {
     if (confirm('Are you sure you want to logout?')) {
       localStorage.removeItem('adminToken');
       localStorage.removeItem('admin');
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
       window.location.href = 'admin-login.html';
     }
   });
