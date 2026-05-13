@@ -4,11 +4,13 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
-const { QuickDB } = require('quick.db');
 const { Database } = require('quickmongo');
+
 dotenv.config();
+
 const app = express();
 const db = new Database(process.env.MONGO_URI);
+
 // Middleware
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5500', '*'],
@@ -20,16 +22,25 @@ app.use(express.json());
 const frontendPath = path.join(__dirname, '../apex');
 app.use(express.static(frontendPath));
 
-// In-memory database (replace with real DB later)
-const users = new Map();
 db.on("ready", () => {
-    console.log("Connected to the database");
-    doStuff().then(console.log("Data set in the database"));
+  console.log("Connected to the database");
 });
-db.connect()
-async function doStuff() {
-await db.set("userInfo", { name: "John Doe", email: "john.doe@example.com" });
+db.connect();
+
+// ============================================================
+// HELPERS
+// ============================================================
+
+// All users are stored under the key "users:<email>"
+const userKey = (email) => `users:${email}`;
+
+async function getAllUsers() {
+  const all = await db.all();
+  return all
+    .filter(entry => entry.id.startsWith('users:'))
+    .map(entry => entry.value);
 }
+
 // ============================================================
 // AUTH ROUTES
 // ============================================================
@@ -43,11 +54,10 @@ app.post('/api/auth/register', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    if (users.has(email)) {
+    if (await db.has(userKey(email))) {
       return res.status(400).json({ error: 'Email already registered' });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
     const uid = `user_${Date.now()}`;
 
@@ -61,22 +71,19 @@ app.post('/api/auth/register', async (req, res) => {
       role: 'member'
     };
 
-    users.set(email, newUser);
+    await db.set(userKey(email), newUser);
 
-    const token = jwt.sign({ uid, email }, process.env.JWT_SECRET || 'your_secret_key_change_this', {
-      expiresIn: '7d'
-    });
+    const token = jwt.sign(
+      { uid, email },
+      process.env.JWT_SECRET || 'your_secret_key_change_this',
+      { expiresIn: '7d' }
+    );
 
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
       token,
-      user: { 
-        uid, 
-        email, 
-        fullName, 
-        plan: null
-      }
+      user: { uid, email, fullName, plan: null }
     });
   } catch (error) {
     console.error('Register error:', error);
@@ -93,7 +100,7 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(400).json({ error: 'Email and password required' });
     }
 
-    const user = users.get(email);
+    const user = await db.get(userKey(email));
 
     if (!user) {
       return res.status(401).json({ error: 'Invalid email or password' });
@@ -105,18 +112,20 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ uid: user.uid, email }, process.env.JWT_SECRET || 'your_secret_key_change_this', {
-      expiresIn: '7d'
-    });
+    const token = jwt.sign(
+      { uid: user.uid, email },
+      process.env.JWT_SECRET || 'your_secret_key_change_this',
+      { expiresIn: '7d' }
+    );
 
     res.json({
       success: true,
       message: 'Login successful',
       token,
-      user: { 
-        uid: user.uid, 
-        email: user.email, 
-        fullName: user.fullName, 
+      user: {
+        uid: user.uid,
+        email: user.email,
+        fullName: user.fullName,
         plan: user.plan || null
       }
     });
@@ -129,18 +138,21 @@ app.post('/api/auth/login', async (req, res) => {
 // Get Current User (Protected)
 app.get('/api/auth/me', authenticateToken, async (req, res) => {
   try {
-    const user = Array.from(users.values()).find(u => u.uid === req.user.uid);
+    const allUsers = await getAllUsers();
+    const user = allUsers.find(u => u.uid === req.user.uid);
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.json({ 
-      success: true, 
-      user: { 
-        uid: user.uid, 
-        email: user.email, 
-        fullName: user.fullName, 
-        plan: user.plan 
-      } 
+
+    res.json({
+      success: true,
+      user: {
+        uid: user.uid,
+        email: user.email,
+        fullName: user.fullName,
+        plan: user.plan
+      }
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -159,7 +171,7 @@ app.get('/health', (req, res) => {
 
 // Root route
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     status: 'OK',
     message: '🚀 APEX Gym Auth Backend is running',
     endpoints: {
@@ -185,7 +197,6 @@ app.post('/api/admin/login', async (req, res) => {
       return res.status(400).json({ error: 'Email and password required' });
     }
 
-    // Hardcoded admin credentials (in production, use database)
     const ADMIN_EMAIL = 'admin@apex.com';
     const ADMIN_PASSWORD = 'ApexAdmin@2024';
 
@@ -193,9 +204,11 @@ app.post('/api/admin/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid admin credentials' });
     }
 
-    const token = jwt.sign({ role: 'admin', email }, process.env.JWT_SECRET || 'your_secret_key_change_this', {
-      expiresIn: '24h'
-    });
+    const token = jwt.sign(
+      { role: 'admin', email },
+      process.env.JWT_SECRET || 'your_secret_key_change_this',
+      { expiresIn: '24h' }
+    );
 
     res.json({
       success: true,
@@ -210,21 +223,21 @@ app.post('/api/admin/login', async (req, res) => {
 });
 
 // Get All Users (Admin Only)
-app.get('/api/admin/users', authenticateAdmin, (req, res) => {
+app.get('/api/admin/users', authenticateAdmin, async (req, res) => {
   try {
-    const allUsers = Array.from(users.values()).map(user => ({
-      uid: user.uid,
-      email: user.email,
-      fullName: user.fullName,
-      plan: user.plan || 'No Plan',
-      createdAt: user.createdAt,
-      role: user.role
-    }));
+    const allUsers = await getAllUsers();
 
     res.json({
       success: true,
       totalUsers: allUsers.length,
-      users: allUsers
+      users: allUsers.map(user => ({
+        uid: user.uid,
+        email: user.email,
+        fullName: user.fullName,
+        plan: user.plan || 'No Plan',
+        createdAt: user.createdAt,
+        role: user.role
+      }))
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -232,10 +245,10 @@ app.get('/api/admin/users', authenticateAdmin, (req, res) => {
 });
 
 // Get Admin Dashboard Stats
-app.get('/api/admin/stats', authenticateAdmin, (req, res) => {
+app.get('/api/admin/stats', authenticateAdmin, async (req, res) => {
   try {
-    const allUsers = Array.from(users.values());
-    
+    const allUsers = await getAllUsers();
+
     const stats = {
       totalUsers: allUsers.length,
       planBreakdown: {
@@ -254,28 +267,27 @@ app.get('/api/admin/stats', authenticateAdmin, (req, res) => {
         }))
     };
 
-    res.json({
-      success: true,
-      stats
-    });
+    res.json({ success: true, stats });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
 // Update User Plan (Admin Only)
-app.put('/api/admin/users/:uid/plan', authenticateAdmin, (req, res) => {
+app.put('/api/admin/users/:uid/plan', authenticateAdmin, async (req, res) => {
   try {
     const { uid } = req.params;
     const { plan } = req.body;
 
-    const user = Array.from(users.values()).find(u => u.uid === uid);
+    const allUsers = await getAllUsers();
+    const user = allUsers.find(u => u.uid === uid);
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     user.plan = plan;
-    users.set(user.email, user);
+    await db.set(userKey(user.email), user);
 
     res.json({
       success: true,
@@ -293,21 +305,20 @@ app.put('/api/admin/users/:uid/plan', authenticateAdmin, (req, res) => {
 });
 
 // Delete User (Admin Only)
-app.delete('/api/admin/users/:uid', authenticateAdmin, (req, res) => {
+app.delete('/api/admin/users/:uid', authenticateAdmin, async (req, res) => {
   try {
     const { uid } = req.params;
 
-    const user = Array.from(users.values()).find(u => u.uid === uid);
+    const allUsers = await getAllUsers();
+    const user = allUsers.find(u => u.uid === uid);
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    users.delete(user.email);
+    await db.delete(userKey(user.email));
 
-    res.json({
-      success: true,
-      message: 'User deleted successfully'
-    });
+    res.json({ success: true, message: 'User deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -335,10 +346,6 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// ============================================================
-// MIDDLEWARE - AUTHENTICATE ADMIN
-// ============================================================
-
 function authenticateAdmin(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -352,11 +359,11 @@ function authenticateAdmin(req, res, next) {
       console.error('Admin token error:', err);
       return res.status(403).json({ error: 'Invalid token' });
     }
-    
+
     if (user.role !== 'admin') {
       return res.status(403).json({ error: 'Admin access required' });
     }
-    
+
     req.user = user;
     next();
   });
@@ -376,7 +383,7 @@ app.use((err, req, res, next) => {
 // ============================================================
 
 const PORT = process.env.PORT || 3000;
-// Frontend routes
+
 app.get('/pages/:page', (req, res) => {
   res.sendFile(path.join(frontendPath, 'pages', req.params.page));
 });
