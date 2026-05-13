@@ -4,10 +4,11 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
-
+const { QuickDB } = require('quick.db');
+const { Database } = require('quickmongo');
 dotenv.config();
 const app = express();
-
+const db = new Database(process.env.MONGO_URI);
 // Middleware
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5500', '*'],
@@ -21,7 +22,14 @@ app.use(express.static(frontendPath));
 
 // In-memory database (replace with real DB later)
 const users = new Map();
-
+db.on("ready", () => {
+    console.log("Connected to the database");
+    doStuff().then(console.log("Data set in the database"));
+});
+db.connect()
+async function doStuff() {
+await db.set("userInfo", { name: "John Doe", email: "john.doe@example.com" });
+}
 // ============================================================
 // AUTH ROUTES
 // ============================================================
