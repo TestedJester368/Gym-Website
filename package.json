@@ -1,9 +1,14 @@
 {
   "name": "apex-gym-monorepo",
   "private": true,
-  "workspaces": ["backend"],
+  "workspaces": [
+    "backend"
+  ],
   "scripts": {
     "dev": "npm run dev --workspace backend",
     "start": "npm run start --workspace backend"
+  },
+  "dependencies": {
+    "quickmongo": "^5.2.0"
   }
 }
