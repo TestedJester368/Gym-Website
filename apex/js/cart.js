@@ -1,8 +1,4 @@
-const API_URL = 'http://localhost:3000/api/auth';
-
-// ============================================================
-// INITIALIZE CART
-// ============================================================
+const API_URL = `${window.location.origin}/api`;
 
 document.addEventListener('DOMContentLoaded', () => {
   displayCart();
@@ -10,10 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCheckout();
   setupCardPreview();
 });
-
-// ============================================================
-// CART DISPLAY
-// ============================================================
 
 function displayCart() {
   const cart = getCart();
@@ -84,10 +76,6 @@ function updateSummary() {
   document.getElementById('total').textContent = `₹${total.toLocaleString('en-IN')}`;
 }
 
-// ============================================================
-// CART MANAGEMENT
-// ============================================================
-
 function getCart() {
   return JSON.parse(localStorage.getItem('cart') || '[]');
 }
@@ -109,10 +97,6 @@ function addPlanToCart(planName, price, planType) {
   saveCart(cart);
   alert(`✓ ${planName} added to cart!`);
 }
-
-// ============================================================
-// CHECKOUT
-// ============================================================
 
 const checkoutModal = document.getElementById('checkoutModal');
 const closeCheckout = document.getElementById('closeCheckout');
@@ -140,7 +124,6 @@ function populateCheckoutForm() {
 }
 
 function switchTab(tabName) {
-  // Validate current tab before switching
   if (tabName === 'payment') {
     if (!validateDeliveryForm()) return;
   } else if (tabName === 'review') {
@@ -157,10 +140,6 @@ function switchTab(tabName) {
   document.getElementById(`${tabName}-tab`).classList.add('active');
   document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
 }
-
-// ============================================================
-// FORM VALIDATION
-// ============================================================
 
 function validateDeliveryForm() {
   const fields = ['fullName', 'email', 'phone', 'address', 'city', 'state', 'postal'];
@@ -198,22 +177,16 @@ function validatePaymentForm() {
   return true;
 }
 
-// ============================================================
-// REVIEW
-// ============================================================
-
 function populateReview() {
   const cart = getCart();
   const cart_total = cart.reduce((sum, item) => sum + item.price, 0);
   const tax = Math.round(cart_total * 0.18);
   const total = cart_total + tax;
 
-  // Plan details
   document.getElementById('reviewPlan').innerHTML = cart
     .map(item => `<strong>${item.name} Plan</strong> - ₹${item.price}/month`)
     .join('<br />');
 
-  // Delivery details
   const delivery = `
     <strong>${document.getElementById('fullName').value}</strong><br />
     ${document.getElementById('email').value}<br />
@@ -223,18 +196,12 @@ function populateReview() {
   `;
   document.getElementById('reviewDelivery').innerHTML = delivery;
 
-  // Payment method
   const method = document.querySelector('input[name="paymentMethod"]:checked').value;
   const methodNames = { card: 'Credit/Debit Card', upi: 'UPI', wallet: 'Digital Wallet' };
   document.getElementById('reviewPayment').textContent = methodNames[method];
 
-  // Total
   document.getElementById('reviewTotal').textContent = `₹${total.toLocaleString('en-IN')}`;
 }
-
-// ============================================================
-// PAYMENT METHODS
-// ============================================================
 
 function setupPaymentMethods() {
   const radios = document.querySelectorAll('input[name="paymentMethod"]');
@@ -247,10 +214,6 @@ function setupPaymentMethods() {
     });
   });
 }
-
-// ============================================================
-// CARD PREVIEW
-// ============================================================
 
 function setupCardPreview() {
   const cardNumber = document.getElementById('cardNumber');
@@ -280,10 +243,6 @@ function setupCardPreview() {
   });
 }
 
-// ============================================================
-// PLACE ORDER
-// ============================================================
-
 function setupCheckout() {
   document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
 }
@@ -299,23 +258,31 @@ async function placeOrder() {
   try {
     showCheckoutStatus('Processing payment...', 'loading');
 
-    // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    // Update user plan in backend
     const user = JSON.parse(localStorage.getItem('user'));
     const token = localStorage.getItem('authToken');
 
-    if (token && user.uid) {
-      // In production, call API to update user plan
-      user.plan = planType;
-      localStorage.setItem('user', JSON.stringify(user));
+    const response = await fetch(`${API_URL}/auth/plan`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ plan: planType })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to update plan');
     }
 
-    // Clear cart
+    user.plan = planType;
+    localStorage.setItem('user', JSON.stringify(user));
+
     localStorage.removeItem('cart');
 
-    // Show success
     checkoutModal.classList.remove('active');
     showSuccessModal(orderId, planName);
 

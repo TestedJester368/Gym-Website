@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/admin';
+const API_URL = `${window.location.origin}/api/admin`;
 
 const adminLoginForm = document.getElementById('adminLoginForm');
 
@@ -29,11 +29,6 @@ if (adminLoginForm) {
         throw new Error(data.error || 'Admin login failed');
       }
 
-      // Clear any existing user sessions
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
-
-      // Set admin tokens
       localStorage.setItem('adminToken', data.token);
       localStorage.setItem('admin', JSON.stringify(data.admin));
 
