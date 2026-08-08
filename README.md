@@ -85,4 +85,3 @@ The admin login is handled by `POST /api/admin/login` and the server issues an a
 
 ---
 
-If you want, I can add a minimal SQLite migration and wiring, or create a more detailed deployment guide. Which would you like next?
